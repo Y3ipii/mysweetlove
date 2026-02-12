@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Handlee&display=swap" rel="stylesheet">
+<title>Carta Secreta by myeya</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-image: url('imagenes/imagenbodrio.png');
+  background-size: cover;
+}
+
+.screen {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.active {
+  display: flex;
+}
+
+.password-panel {
+  background-color: rgba(255,255,255,0.85);
+  border-radius: 20px;
+  padding: 25px;
+  display: flex;
+  gap: 30px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+.photo {
+  width: 220px;
+  border-radius: 15px;
+  object-fit: cover;
+}
+
+.password-area {
+  text-align: center;
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 60px);
+  gap: 10px;
+  margin-top: 15px;
+  justify-content: center;
+}
+
+.key {
+  background-color: #6e89ff;
+  border: none;
+  border-radius: 10px;
+  font-size: 20px;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.key:hover {
+  background-color: #0d38af;
+}
+
+.input-display {
+  font-size: 24px;
+  letter-spacing: 8px;
+  margin-top: 10px;
+}
+
+.ok-btn {
+  margin-top: 15px;
+  padding: 10px 40px;
+  border-radius: 10px;
+  border: none;
+  background-color: #2d4eaa;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.ok-btn:hover {
+  background-color: #0d38af;
+}
+
+.notepad {
+  background-color: #add1ff;
+  border: 3px solid #2d4eaa;
+  padding: 20px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 500px;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Handlee', cursive;
+  box-shadow: 0 0 15px rgba(45,78,170,0.5);
+}
+
+.note-content {
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.note-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.note-content::-webkit-scrollbar-thumb {
+  background-color: #2d4eaa;
+  border-radius: 10px;
+}
+
+.note-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.back-btn {
+  position: absolute;
+  bottom: 30px;
+  padding: 10px 40px;
+  border-radius: 10px;
+  border: none;
+  background-color: #2d4eaa;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  background-color: #0d38af;
+}
+
+.music-box {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 2px dashed #2d4eaa;
+  text-align: center;
+}
+
+.music-box p {
+  font-size: 14px;
+  font-style: italic;
+}
+
+.song {
+  margin-bottom: 10px;
+}
+
+.notepad {
+  animation: fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.petal {
+  position: fixed;
+  top: -50px;
+  font-size: 24px;
+  animation: fall linear infinite;
+  pointer-events: none;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+
+<div id="passwordScreen" class="screen active">
+
+  <label class="password-panel">
+    <img src="imagenes/foto.png" class="photo">
+
+    <div class="password-area">
+      <h2>🔒 Enter password</h2>
+      <div class="input-display" id="inputDisplay">••••</div>
+
+      <div class="keypad">
+        <button class="key" onclick="enterDigit('1')">1</button>
+        <button class="key" onclick="enterDigit('2')">2</button>
+        <button class="key" onclick="enterDigit('3')">3</button>
+        <button class="key" onclick="enterDigit('4')">4</button>
+        <button class="key" onclick="enterDigit('5')">5</button>
+        <button class="key" onclick="enterDigit('6')">6</button>
+        <button class="key" onclick="enterDigit('7')">7</button>
+        <button class="key" onclick="enterDigit('8')">8</button>
+        <button class="key" onclick="enterDigit('9')">9</button>
+        <div></div>
+        <button class="key" onclick="enterDigit('0')">0</button>
+      </div>
+
+      <button class="ok-btn" onclick="checkPassword()">OK</button>
+    </div>
+  </label>
+</div>
+
+<div id="notepadScreen" class="screen">
+  <div class="notepad">
+    <div class="note-content">
+
+    <h3>📅 13 Febrero 2026 </h3>
+    <h4>🤍 para el amor de mi vida:</h4>
+    <p>
+      Feliz cumpleaños y feliz san valentin (adelantado, por supuesto). este año quise hacer algo distinto, así q prepare esto para vos, espero te guste mucho <3
+    </p>
+    <p>
+      estoy muy feliz de poder celebrar otro año juntitos mi niño, mi amor por vos todavía se siente tan bien desde el primer día en q te conocí. recuerdo 
+      perfectamente que la primera noche que hablamos hasta tan tarde, tuve un sueño donde no dejábamos de hacerlo durante mucho tiempo, y me desperté muy 
+      feliz sabiendo que estaba siendo real, vos estabas ahí, diciéndome buenos días, y mi corazón nunca se sintió tan feliz y cálido.
+
+    </p>
+    <p>
+      Estoy demasiado orgullosa de vos, quiero que lo sepas, sos mi inspiración y mi motorcito para muchas cosas, soy muy feliz y agradecida de saber que 
+      te tengo en mi vida, y que puedo estar tranquila de estar con alguien tan hermoso y bueno, es una caricia al alma.
+    </p>
+    <p>
+        A veces muchas cosas pesan más de lo común, y es muy difícil hablarlas, pero quiero que sepas que siempre voy a estar para vos, poniendo mi hombro 
+        para que llores, y mi pecho y brazos para que descanses. el día más feliz de mi vida sea cuando porfin pueda sentir tu calor y tu presencia alrededor mío.
+    </p>
+    <p>
+        Te amo, mucho, demasiado. sos la única persona con la que quiero pasar el resto de mi vida, con la que quiero formar mi familia y mi hogar, aunque mi hogar 
+        siempre va a estar donde vos estés, y mi amor siempre va a permanecer donde este tu sonrisa involucrada.
+    </p>
+    <p>
+        Te amo profundamente. ♡
+    </p>
+
+    <div class="music-box">
+        <h4>🎧 canciones para vos</h4>
+        <p>porque cada una dice algo que a veces no sé explicar con palabras…</p>
+
+        <div class="song">
+          <iframe style="border-radius:12px" 
+            src="https://open.spotify.com/embed/track/4ZISkGo0j60iyLbme2rAkC"
+            width="100%" height="80" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media;">
+          </iframe>
+        </div>
+
+        <div class="song">
+          <iframe style="border-radius:12px" 
+            src="https://open.spotify.com/embed/track/79EkGysjP2dL5GdpeQjRxT"
+            width="100%" height="80" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media;">
+          </iframe>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <button class="back-btn" onclick="goBack()">⬅ Atrás</button>
+</div>
+
+<script>
+const correctPassword = '2224';
+let input = '';
+
+function enterDigit(digit) {
+  if (input.length < 4) {
+    input += digit;
+    document.getElementById('inputDisplay').textContent = input.padEnd(4, '•');
+  }
+}
+
+function checkPassword() {
+  if (input === correctPassword) {
+    document.getElementById('passwordScreen').classList.remove('active');
+    document.getElementById('notepadScreen').classList.add('active');
+  } else {
+    alert('Contraseña incorrecta');
+    input = '';
+    document.getElementById('inputDisplay').textContent = '••••';
+  }
+}
+
+function goBack() {
+  document.getElementById('notepadScreen').classList.remove('active');
+  document.getElementById('passwordScreen').classList.add('active');
+  input = '';
+  document.getElementById('inputDisplay').textContent = '••••';
+}
+
+function createPetal() {
+  const petal = document.createElement("div");
+  petal.classList.add("petal");
+  petal.innerText = "🌸";
+
+  petal.style.left = Math.random() * window.innerWidth + "px";
+  petal.style.animationDuration = 5 + Math.random() * 5 + "s";
+  petal.style.opacity = Math.random();
+
+  document.body.appendChild(petal);
+
+  setTimeout(() => {
+    petal.remove();
+  }, 10000);
+}
+
+setInterval(createPetal, 500);
+
+
+</script>
+<div class="petals"></div>
+</body>
+</html>
